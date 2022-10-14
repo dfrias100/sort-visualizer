@@ -1,0 +1,12 @@
+#list-visualization {
+    position: relative;
+    height: 70vh;
+    width: 100%;
+    background-color: clear;
+}
+
+.list-bar {
+    position: absolute;
+    bottom: 0;
+    background-color: gray;
+}
