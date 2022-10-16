@@ -1,6 +1,14 @@
+div label {
+    vertical-align: middle;
+}
+
+div input {
+    vertical-align: middle;
+}
+
 #visualization-container {
-    padding-left: 2.5%;
-    padding-right: 2.5%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 #list-visualization {
@@ -10,8 +18,22 @@
     background-color: clear;
 }
 
+#visualization-controls {
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    display: flex;
+    justify-content: center;
+    column-gap: 2.5%;
+}
+
+#visualization-controls > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .list-bar {
     position: absolute;
+    padding-right: 0.25px;
     bottom: 0;
-    background: linear-gradient(to bottom, rgb(150, 255, 150), green);
+    background: linear-gradient(to bottom, rgb(240, 187, 255), rgb(122, 0, 107));
 }

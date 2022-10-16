@@ -15,6 +15,23 @@
             <div id="list-visualization"></div>
         </div>
 
-        <script src="sort.js"></script>
+        <div id="visualization-controls">
+            <select name="sorting-algorithms" id="sort-selector" class="sort-input" onchange="onChangeDropdown(this)"> 
+                <option value="bubble-sort">Bubble Sort</option>
+                <option value="insertion-sort">Insertion Sort</option>
+                <option value="selection-sort">Selection Sort</option> 
+                <option value="merge-sort">Merge Sort</option>
+                <option value="quick-sort">Quick Sort</option>
+                <option value="heap-sort">Heap Sort</option>
+            </select>
+            <button name="sort-button" id="heap-button" class="sort-input" onclick="runSort()">Sort!</button>
+            <button name="shuffle-button" id="shuffle-button" class="sort-input" onclick="runShuffle()">Shuffle</button>
+            <div>
+                <label for="number-of-elements">Number of Elements</label>
+                <input type="range" name="number-of-elements"  id="elements-range" onchange="onChangeRange(this)" class="sort-input" min="10" max="1000" step="1" value="100">
+            </div>
+        </div>
+
+        <script src="sort.js?v=1"></script>
     </body>
 </html>
