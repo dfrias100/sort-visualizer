@@ -4,12 +4,15 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
         <title>Sort Visualizer</title>
     </head>
 
     <body>
-        <div>
+        <div class="site-header">
             <h1>Sort Visualizer</h1>
         </div>
 
@@ -17,24 +20,27 @@
             <div id="list-visualization"></div>
         </div>
 
-        <div id="visualization-controls">
-            <select name="sorting-algorithms" id="sort-selector" class="sort-input" onchange="onChangeDropdown(this)"> 
-                <option value="bubble-sort">Bubble Sort</option>
-                <option value="insertion-sort">Insertion Sort</option>
-                <option value="selection-sort">Selection Sort</option> 
-                <option value="merge-sort">Merge Sort</option>
-                <option value="quick-sort">Quick Sort</option>
-                <option value="heap-sort">Heap Sort</option>
-                <option value="introsort-sort">IntroSort</option>
-            </select>
-            <button name="sort-button" id="sort-button" class="sort-input" onclick="runSort()">Sort!</button>
-            <button name="shuffle-button" id="shuffle-button" class="sort-input" onclick="runShuffle()">Shuffle</button>
-            <div>
-                <label for="number-of-elements">Number of Elements</label>
-                <input type="range" name="number-of-elements"  id="elements-range" onchange="onChangeRange(this)" class="sort-input" min="10" max="1000" step="1" value="100">
+        <div class="site-footer">
+            <div id="visualization-controls">
+                <select name="sorting-algorithms" id="sort-selector" class="sort-input" onchange="onChangeDropdown(this)"> 
+                    <option value="bubble-sort">Bubble Sort</option>
+                    <option value="insertion-sort">Insertion Sort</option>
+                    <option value="selection-sort">Selection Sort</option> 
+                    <option value="merge-sort">Merge Sort</option>
+                    <option value="quick-sort">Quick Sort</option>
+                    <option value="heap-sort">Heap Sort</option>
+                    <option value="introsort-sort">IntroSort</option>
+                </select>
+                <button name="sort-button" id="sort-button" class="sort-input" onclick="runSort()">Sort!</button>
+                <button name="shuffle-button" id="shuffle-button" class="sort-input" onclick="runShuffle()">Shuffle</button>
+                <div>
+                    <label for="number-of-elements">Number of Elements</label>
+                    <input type="range" name="number-of-elements"  id="elements-range" oninput="document.getElementById('num-elements').innerHTML = this.value; onChangeRange(this);" class="sort-input" min="10" max="1000" step="1" value="100">
+                    <label for="number-of-elements" id="num-elements">100</label>
+                </div>
             </div>
         </div>
 
-        <script src="sort.js?v=3"></script>
+        <script src="sort.js?v=4"></script>
     </body>
 </html>

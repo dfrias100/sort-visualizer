@@ -354,7 +354,8 @@ function onChangeRange(element) {
 }
 
 window.addEventListener("load", async function() {
-    numElements = document.getElementById("elements-range").value;
+    document.getElementById("elements-range").value = 100;
+    document.getElementById('num-elements').innerHTML = numElements;
     setup();
     disableInputControl(true);
     await shuffle();

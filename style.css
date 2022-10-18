@@ -1,3 +1,8 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
 div label {
     vertical-align: middle;
 }
@@ -6,14 +11,63 @@ div input {
     vertical-align: middle;
 }
 
+input[type=range] {
+    -webkit-appearance: none;
+    background-image: linear-gradient(to right, rgb(0, 129, 158), rgb(132, 237, 255));
+    border-radius: 5%;
+    border: 3px solid;
+    border-color: rgb(52, 103, 180);
+    width: 200px;
+    height:10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 2px solid;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    max-width: 80px;
+    position: relative;
+    bottom: 11px;
+    background-color: #ffffff;
+    cursor: -moz-grab;
+    -moz-transition: border 1000ms ease;
+    transition: border 1000ms ease;
+}
+
+input[type=range]::-moz-range-thumb {
+    -moz-appearance: none;
+    border: 2px solid;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    max-width: 80px;
+    position: relative;
+    bottom: 11px;
+    background-color: #ffffff;
+    cursor: -moz-grab;
+    -moz-transition: border 1000ms ease;
+    transition: border 1000ms ease;
+}
+
+input[type=range]::-moz-range-thumb {
+    border-color: rgb(59,173,227);
+}
+
+input[type=range]::-webkit-range-thumb {
+    border-color: rgb(59,173,227);
+}
+
 #visualization-container {
     padding-left: 10%;
     padding-right: 10%;
+    padding-top: 1%;
 }
 
 #list-visualization {
     position: relative;
-    height: 70vh;
+    height: 65vh;
     width: 100%;
     background-color: clear;
 }
@@ -36,4 +90,26 @@ div input {
     padding-right: 0.25px;
     bottom: 0;
     background: linear-gradient(to bottom, rgb(240, 187, 255), rgb(122, 0, 107));
+}
+
+.site-header {
+    width: 100%;
+    padding: 5px;
+    padding-right: 0px;
+    color: white;
+    background-color: hsl(212, 100%, 50%);
+}
+
+.site-header > h1 {
+    margin-left: 10px;
+}
+
+.site-footer {
+    height: auto;
+    width: 100%;
+    bottom: 0;
+    align-items: center;
+    position: absolute;
+    color: white;
+    background-color: hsl(212, 100%, 50%);
 }
