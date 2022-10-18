@@ -36,6 +36,7 @@
                 </div>
                 <button name="sort-button" id="sort-button" class="sort-input ripple" onclick="runSort()">Sort</button>
                 <button name="shuffle-button" id="shuffle-button" class="sort-input ripple" onclick="runShuffle()">Shuffle</button>
+                <button name="shuffle-button" id="shuffle-button" class="stop-button" onclick="stopBtn()">Stop</button>
                 <div>
                     <label for="number-of-elements">Number of Elements</label>
                     <input type="range" name="number-of-elements"  id="elements-range" oninput="document.getElementById('num-elements').innerHTML = this.value; onChangeRange(this);" class="sort-input" min="10" max="1000" step="1" value="100">

@@ -5,6 +5,7 @@ let sortBars = [];
 let numElements = 100;
 let activeSort = null;
 let delay = 0.0;
+let active = false;
 
 function setup() {
     let sortVizDiv = document.getElementById("list-visualization");
@@ -29,6 +30,7 @@ function removeAllChildNodes(parent) {
 
 async function shuffle() {
     for (let i = sortBars.length - 1; i >= 1; i--) {
+        if (!active) return;
         let j = Math.floor(Math.random() * i);
         await swap(i, j);
     }
@@ -52,6 +54,7 @@ async function swap(i, j) {
 async function bubbleSort() {
     for (let i = 0; i < sortBars.length; i++) {
         for (let j = 0; j < sortBars.length - i - 1; j++) {
+            if (!active) return;
             if (compareLessThan(j + 1, j)) {
                 await swap(j + 1, j);
             }
@@ -64,6 +67,8 @@ async function insertionSort() {
         let j = i;
 
         while (j > 0 && compareLessThan(j, j - 1)) {
+            if (!active) return;
+
             await swap(j, j - 1);
             j--;
         }
@@ -75,6 +80,8 @@ async function selectionSort() {
         let jMin = i;
 
         for (j = i + 1; j < sortBars.length; j++) {
+            if (!active) return;
+
             if (compareLessThan(j, jMin)) {
                 jMin = j;
             }
@@ -87,6 +94,7 @@ async function selectionSort() {
 }
 
 async function mergeSort(leftIdx, rightIdx) {
+    if (!active) return;
     if (leftIdx >= rightIdx - 1) return;
 
     let middleIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
@@ -131,6 +139,7 @@ async function mergeSort(leftIdx, rightIdx) {
 // QUICK SORT //
 
 async function quickSort(leftIdx, rightIdx) {
+    if (!active) return;
     if (leftIdx < rightIdx) {
         let partitionIdx = await partition(leftIdx, rightIdx);
         await quickSort(leftIdx, partitionIdx - 1);
@@ -162,6 +171,8 @@ async function partition(leftIdx, rightIdx) {
     let i = leftIdx - 1;
 
     for (let j = leftIdx; j <= rightIdx - 1; j++) {
+        if (!active) return;
+
         if (compareLessThan(j, pivot)) {
             i++;
             await swap(i, j);
@@ -210,6 +221,8 @@ async function heapify(count) {
     let start = parent(count - 1);
 
     while (start >= 0) {
+        if (!active) return;
+
         await siftDown(start, count - 1);
         start--;
     }
@@ -218,7 +231,10 @@ async function heapify(count) {
 async function heapSort() {
     await heapify(sortBars.length);
     let end = sortBars.length - 1;
+
     while (end > 0) {
+        if (!active) return;
+
         await swap(end, 0);
         end--;
         await siftDown(0, end);
@@ -233,6 +249,8 @@ async function introSortHelper() {
 }
 
 async function introSort(start, end, maxDepth) {
+    if (!active) return; 
+
     let size = end - start;
     if (size < 16) {
         await introInsertionSort(start, end);
@@ -249,6 +267,8 @@ async function introInsertionSort(start, end) {
     for (let i = start + 1; i < end; i++) {
         let j = i;
 
+        if (!active) return;
+
         while (j > 0 && compareLessThan(j, j - 1)) {
             await swap(j, j - 1);
             j--;
@@ -260,6 +280,8 @@ async function introHeapify(begin, count) {
     let start = begin + parent(count - 1);
 
     while (start >= begin) {
+        if (!active) return;
+
         await introSiftDown(start, begin + (count - 1), begin);
         start--;
     }
@@ -268,7 +290,7 @@ async function introHeapify(begin, count) {
 async function introSiftDown(start, end, beginIdx) {
     let root = start;
 
-    while (beginIdx + leftChild(root - beginIdx) <= end) {
+    while (beginIdx + leftChild(root - beginIdx) <= end) {        
         let child = beginIdx + leftChild(root - beginIdx);
         let swapLeaf = root;
 
@@ -292,7 +314,10 @@ async function introSiftDown(start, end, beginIdx) {
 async function introHeapSort(start, endOfArr) {
     await introHeapify(start, endOfArr - start);
     let end = endOfArr - 1;
+
     while (end > start) {
+        if (!active) return;
+
         await swap(end, start);
         end--;
         await introSiftDown(start, end, start);
@@ -303,6 +328,8 @@ async function introHeapSort(start, endOfArr) {
 
 async function bogoSort() {
     while (!(await isSorted())) {
+        if (!active) return;
+
         await shuffle();
     }
 }
@@ -365,13 +392,17 @@ function disableInputControl(condition) {
 
 async function runSort() {
     disableInputControl(true);
+    active = true;
     await activeSort[0](...activeSort[1]);
+    active = false;
     disableInputControl(false);
 }
 
 async function runShuffle() {
     disableInputControl(true);
+    active = true;
     await shuffle();
+    active = true;
     disableInputControl(false);
 }
 
@@ -392,12 +423,18 @@ function onChangeRange(element) {
     updateArgs();
 }
 
+async function stopBtn() {
+    active = false;
+}
+
 window.addEventListener("load", async function() {
     document.getElementById("elements-range").value = 100;
     document.getElementById('num-elements').innerHTML = numElements;
     setup();
     disableInputControl(true);
+    active = true;
     await shuffle();
+    active = false;
     disableInputControl(false);
     let funcVal = document.getElementById("sort-selector").selectedIndex;
     activeSort = functions[funcVal]; 
