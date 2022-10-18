@@ -9,8 +9,10 @@
     </head>
 
     <body>
-        <h1>Sort Visualizer</h1>
-        
+        <div>
+            <h1>Sort Visualizer</h1>
+        </div>
+
         <div id="visualization-container">
             <div id="list-visualization"></div>
         </div>
@@ -23,8 +25,9 @@
                 <option value="merge-sort">Merge Sort</option>
                 <option value="quick-sort">Quick Sort</option>
                 <option value="heap-sort">Heap Sort</option>
+                <option value="introsort-sort">IntroSort</option>
             </select>
-            <button name="sort-button" id="heap-button" class="sort-input" onclick="runSort()">Sort!</button>
+            <button name="sort-button" id="sort-button" class="sort-input" onclick="runSort()">Sort!</button>
             <button name="shuffle-button" id="shuffle-button" class="sort-input" onclick="runShuffle()">Shuffle</button>
             <div>
                 <label for="number-of-elements">Number of Elements</label>
@@ -32,6 +35,6 @@
             </div>
         </div>
 
-        <script src="sort.js?v=1"></script>
+        <script src="sort.js?v=3"></script>
     </body>
 </html>

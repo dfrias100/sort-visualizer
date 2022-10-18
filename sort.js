@@ -137,7 +137,26 @@ async function quickSort(leftIdx, rightIdx) {
 }
 
 async function partition(leftIdx, rightIdx) {
-    let pivot = rightIdx;
+    let randIdx = leftIdx + Math.round(Math.random() * (rightIdx - leftIdx));
+    let pivots = [
+        parseFloat(sortBars[leftIdx].style.height.slice(0, -1)), 
+        parseFloat(sortBars[randIdx].style.height.slice(0, -1)), 
+        parseFloat(sortBars[rightIdx].style.height.slice(0, -1))
+    ];
+
+    let pivot;
+
+    if ((pivots[0] > pivots[1]) ^ (pivots[0] > pivots[2])) {
+        pivot = leftIdx;
+    } else if ((pivots[1] < pivots[0]) ^ (pivots[1] < pivots[2])) {
+        pivot = randIdx;
+    } else {
+        pivot = rightIdx;
+    }
+
+    await swap(pivot, rightIdx);
+    pivot = rightIdx;
+
     let i = leftIdx - 1;
 
     for (let j = leftIdx; j <= rightIdx - 1; j++) {
@@ -159,10 +178,6 @@ function parent(i) {
 
 function leftChild(i) {
     return 2 * i + 1;
-}
-
-function rightChild(i) {
-    return 2 * i + 2;
 }
 
 async function siftDown(start, end) {
@@ -208,6 +223,80 @@ async function heapSort() {
     }
 }
 
+// Introsort
+
+async function introSortHelper() {
+    let maxDepth = Math.floor(Math.log2(sortBars.length));
+    await introSort(0, sortBars.length, maxDepth); 
+}
+
+async function introSort(start, end, maxDepth) {
+    let size = end - start;
+    if (size < 16) {
+        await introInsertionSort(start, end);
+    } else if (maxDepth == 0) {
+        await introHeapSort(start, end);
+    } else {
+        let pivot = await partition(start, end - 1);
+        await introSort(start, pivot, maxDepth - 1);
+        await introSort(pivot + 1, end, maxDepth - 1);
+    }
+}
+
+async function introInsertionSort(start, end) {
+    for (let i = start + 1; i < end; i++) {
+        let j = i;
+
+        while (j > 0 && compareLessThan(j, j - 1)) {
+            await swap(j, j - 1);
+            j--;
+        }
+    }
+}
+
+async function introHeapify(begin, count) {
+    let start = begin + parent(count - 1);
+
+    while (start >= begin) {
+        await introSiftDown(start, begin + (count - 1), begin);
+        start--;
+    }
+}
+
+async function introSiftDown(start, end, beginIdx) {
+    let root = start;
+
+    while (beginIdx + leftChild(root - beginIdx) <= end) {
+        let child = beginIdx + leftChild(root - beginIdx);
+        let swapLeaf = root;
+
+        if (compareLessThan(swapLeaf, child)) {
+            swapLeaf = child;
+        }
+        
+        if ((child + 1) <= end && compareLessThan(swapLeaf, child + 1)) {
+            swapLeaf = child + 1;
+        }
+        
+        if (swapLeaf == root) {
+            return;
+        } else {
+            await swap(root, swapLeaf);
+            root = swapLeaf;
+        }
+    }
+}
+
+async function introHeapSort(start, endOfArr) {
+    await introHeapify(start, endOfArr - start);
+    let end = endOfArr - 1;
+    while (end > start) {
+        await swap(end, start);
+        end--;
+        await introSiftDown(start, end, start);
+    }
+}
+
 // UTIL
 
 function compareLessThan(i, j) {
@@ -220,7 +309,8 @@ const functions = [
     [ selectionSort, [ null ] ], 
     [ mergeSort, [0, sortBars.length]], 
     [ quickSort, [0, sortBars.length - 1]], 
-    [ heapSort, [ null ] ]
+    [ heapSort, [ null ] ],
+    [ introSortHelper, [ null ] ]
 ];
 
 function disableInputControl(condition) {
@@ -229,8 +319,8 @@ function disableInputControl(condition) {
 
     let inputs = document.getElementsByClassName("sort-input");
 
-    for (const input of inputs) {
-        input.disabled = condition;
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].disabled = condition;
     }
 }
 
