@@ -4,9 +4,11 @@ const normalBgCol = "linear-gradient(to bottom, rgb(240, 187, 255), rgb(122, 0, 
 let sortBars = [];
 let numElements = 100;
 let activeSort = null;
+let delay = 0.0;
 
 function setup() {
     let sortVizDiv = document.getElementById("list-visualization");
+    delay = 150.0 / numElements;
 
     for (let i = 1; i <= numElements; i++) {
         let sortBarDiv = document.createElement('div');
@@ -40,7 +42,7 @@ async function swap(i, j) {
     [sortBars[i], sortBars[j]] = [sortBars[j], sortBars[i]];   
 
     await new Promise(resolve => {
-        setTimeout(resolve, 15);
+        setTimeout(resolve, delay);
     });
 
     sortBars[i].style.background = normalBgCol;
@@ -120,7 +122,7 @@ async function mergeSort(leftIdx, rightIdx) {
         sortBars[i + leftIdx].style.left = ((i + leftIdx) * 100.0 / numElements) + "%";
         sortBars[i + leftIdx].style.background = leftSwapBgCol;
         await new Promise(resolve => {
-            setTimeout(resolve, 15);
+            setTimeout(resolve, delay);
         });
         sortBars[i + leftIdx].style.background = normalBgCol;
     }

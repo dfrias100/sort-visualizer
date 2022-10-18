@@ -7,7 +7,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style.css?v=2">
+        <link rel="stylesheet" href="style.css?v=3">
         <title>Sort Visualizer</title>
     </head>
 
@@ -38,11 +38,13 @@
                 <div>
                     <label for="number-of-elements">Number of Elements</label>
                     <input type="range" name="number-of-elements"  id="elements-range" oninput="document.getElementById('num-elements').innerHTML = this.value; onChangeRange(this);" class="sort-input" min="10" max="1000" step="1" value="100">
+                </div>
+                <div style="width: 5%">
                     <label for="number-of-elements" id="num-elements">100</label>
                 </div>
             </div>
         </div>
 
-        <script src="sort.js?v=4"></script>
+        <script src="sort.js?v=5"></script>
     </body>
 </html>
