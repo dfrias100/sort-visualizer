@@ -299,6 +299,42 @@ async function introHeapSort(start, endOfArr) {
     }
 }
 
+// Bogosort
+
+async function bogoSort() {
+    while (!(await isSorted())) {
+        await shuffle();
+    }
+}
+
+async function isSorted() {
+    for (let i = 0; i < sortBars.length - 1; i++) {
+        sortBars[i].style.background = leftSwapBgCol;
+
+        await new Promise(resolve => {
+            setTimeout(resolve, delay);
+        });
+
+        if (!compareLessThan(i, i + 1)) {
+            sortBars[i].style.background = normalBgCol;
+
+            await new Promise(resolve => {
+                setTimeout(resolve, delay);
+            });
+
+            return false;
+        }
+
+        sortBars[i].style.background = normalBgCol;
+
+        await new Promise(resolve => {
+            setTimeout(resolve, delay);
+        });
+    }
+
+    return true;
+}
+
 // UTIL
 
 function compareLessThan(i, j) {
@@ -312,7 +348,8 @@ const functions = [
     [ mergeSort, [0, sortBars.length]], 
     [ quickSort, [0, sortBars.length - 1]], 
     [ heapSort, [ null ] ],
-    [ introSortHelper, [ null ] ]
+    [ introSortHelper, [ null ] ],
+    [ bogoSort, [ null ]]
 ];
 
 function disableInputControl(condition) {
