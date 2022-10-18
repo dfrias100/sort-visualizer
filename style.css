@@ -29,7 +29,6 @@ input[type="range"]::-webkit-slider-thumb {
     width: 20px;
     max-width: 80px;
     position: relative;
-    bottom: 11px;
     background-color: #ffffff;
     cursor: -moz-grab;
     -moz-transition: border 1000ms ease;
@@ -55,7 +54,7 @@ input[type=range]::-moz-range-thumb {
     border-color: rgb(59,173,227);
 }
 
-input[type=range]::-webkit-range-thumb {
+input[type=range]::-webkit-slider-thumb {
     border-color: rgb(59,173,227);
 }
 
