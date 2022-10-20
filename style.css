@@ -76,8 +76,7 @@ select {
     font-size: 100%;
     margin: 0;
     box-sizing: border-box;
-    width: 10vw;
-    /*padding: 5px;*/
+    width: 14vw;
     height: 30px;
     border-radius: 10%;
     transition: background 0.2s;
@@ -109,12 +108,12 @@ select:focus {
 #visualization-container {
     padding-left: 10%;
     padding-right: 10%;
-    padding-top: 1%;
+    padding-top: 0.5vh;
 }
 
 #list-visualization {
     position: relative;
-    height: 65vh;
+    height: 70vh;
     width: 100%;
     background-color: clear;
 }
@@ -142,7 +141,7 @@ select:focus {
 
 .site-header {
     width: 100%;
-    padding: 5px;
+    padding: 3.5px;
     padding-right: 0px;
     color: white;
     background-color: hsl(212, 100%, 50%);

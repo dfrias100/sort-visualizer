@@ -110,6 +110,7 @@ async function mergeSort(leftIdx, rightIdx) {
     let i = 0, j = 0;
 
     while (i < leftN && j < rightN) {
+        if (!active) return;
         if (compareLessThan(leftIdx + i, middleIdx + j)) {
             result.push(sortBars[leftIdx + (i++)]);
         } else {
@@ -324,42 +325,132 @@ async function introHeapSort(start, endOfArr) {
     }
 }
 
+// Cocktail Sort
+async function cocktailShakerSort() {
+    let swapped;
+    do {
+        swapped = false;
+
+        for (let i = 0; i < sortBars.length - 1; i++) {
+            if (!active) return;
+            if (compareLessThan(i + 1, i)) {
+                await swap(i, i + 1);
+                swapped = true;
+            }
+        }
+
+        if (!swapped) {
+            break;
+        }
+
+        for (let i = sortBars.length - 2; i >= 0; i--) {
+            if (!active) return;
+            if (compareLessThan(i + 1, i)) {
+                await swap(i + 1, i);
+                swapped = true;
+            }
+        }
+    } while (swapped)
+}
+
+// Recursive Pairwise Sort
+
+async function pairwiseSortHelper() {
+    await pairwiseSort(0, sortBars.length, 1);
+}
+
+async function pairwiseSort(start, end, space) {
+    if (start >= (end - space)) return;
+
+    let a = start + space;
+    while (a < end) {
+        if (!active) return;
+        if (compareLessThan(a, a - space)) {
+            await swap(a - space, a);
+        }
+        a += 2 * space;
+    }
+
+    if (~~((end - start) / space) % 2 == 0) {
+        await pairwiseSort(start, end, space * 2);
+        await pairwiseSort(start + space, end + space, space * 2);
+    } else {
+        await pairwiseSort(start, end + space, space * 2);
+        await pairwiseSort(start + space, end, space * 2);
+    }
+    
+    let b = 1;
+
+    while (b < ~~((end - start) / space)) {
+        b = 2 * b + 1;
+    }
+
+    a = start + space;
+
+    while (a + space < end) {
+        if (!active) return;
+        let c = b;
+        while (c > 1) {
+            c = Math.floor(c / 2);
+            if(a + c * space < end) {
+                if (compareLessThan(a + c * space, a)) {
+                    await swap(a, a + c * space);
+                }
+            }
+        }
+        a += 2 * space;
+    }
+}
+
+
 // Bogosort
 
 async function bogoSort() {
-    while (!(await isSorted())) {
+    while (!isSorted()) {
         if (!active) return;
 
         await shuffle();
     }
 }
 
-async function isSorted() {
+// Bubble Bogosort
+
+async function bubbleBogoSort() {
+    while (!isSorted()) {
+        if (!active) return;
+
+        let randomIdx = Math.round(Math.random() * (sortBars.length - 2));
+        console.log(randomIdx);
+        if (compareLessThan(randomIdx + 1, randomIdx)) {
+            await swap(randomIdx, randomIdx + 1);
+        }
+    }
+}
+
+function isSorted() {
     for (let i = 0; i < sortBars.length - 1; i++) {
-        sortBars[i].style.background = leftSwapBgCol;
-
-        await new Promise(resolve => {
-            setTimeout(resolve, delay);
-        });
-
         if (!compareLessThan(i, i + 1)) {
-            sortBars[i].style.background = normalBgCol;
-
-            await new Promise(resolve => {
-                setTimeout(resolve, delay);
-            });
-
             return false;
         }
+    }
+    return true;
+}
 
-        sortBars[i].style.background = normalBgCol;
+// Stooge Sort
 
-        await new Promise(resolve => {
-            setTimeout(resolve, delay);
-        });
+async function stoogeSort(left, right) {
+    if (!active) return;
+
+    if (compareLessThan(right, left)) {
+        await swap(left, right);
     }
 
-    return true;
+    if ((right - left) > 1) {
+        let sectionLen = Math.floor((right - left + 1) / 3);;
+        await stoogeSort(left, right - sectionLen);
+        await stoogeSort(left + sectionLen, right);
+        await stoogeSort(left, right - sectionLen);
+    }
 }
 
 // UTIL
@@ -370,13 +461,17 @@ function compareLessThan(i, j) {
  
 const functions = [
     [ bubbleSort, [ null ] ], 
+    [ cocktailShakerSort, [ null ]],
     [ insertionSort, [ null ] ], 
     [ selectionSort, [ null ] ], 
     [ mergeSort, [0, sortBars.length]], 
     [ quickSort, [0, sortBars.length - 1]], 
     [ heapSort, [ null ] ],
     [ introSortHelper, [ null ] ],
-    [ bogoSort, [ null ]]
+    [ pairwiseSortHelper, [ null ]],
+    [ bogoSort, [ null ]],
+    [ bubbleBogoSort, [ null ] ],
+    [ stoogeSort, [0, sortBars.length - 1]]
 ];
 
 function disableInputControl(condition) {
@@ -411,8 +506,9 @@ function onChangeDropdown(element) {
 }
 
 function updateArgs() {
-    functions[3][1][1] = sortBars.length;
-    functions[4][1][1] = sortBars.length - 1;
+    functions[4][1][1] = sortBars.length;
+    functions[5][1][1] = sortBars.length - 1;
+    functions[11][1][1] = sortBars.length - 1;
 }
 
 function onChangeRange(element) {
